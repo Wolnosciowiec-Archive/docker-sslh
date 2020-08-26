@@ -1,5 +1,8 @@
 name: Publish a docker image
-on: [push]
+on:
+    push:
+    schedule:
+        - cron:  '0 0 1 * *' # https://crontab.guru/every-month
 
 jobs:
     build:
