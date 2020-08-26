@@ -55,6 +55,7 @@ services:
         environment:
             HTTP_TARGET: "127.0.0.1:8000"
             SSL_TARGET: "127.0.0.1:443"
+            #SSL_TARGET: "{{ host }}:443" # example: {{ host }} will be automatically replaced with a gateway IP address
             #VPN_TARGET: ""
             #HTTP_TARGET: ""
             #SOCKS_TARGET: ""
