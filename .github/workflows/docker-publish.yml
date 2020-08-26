@@ -1,0 +1,26 @@
+name: Publish a docker image
+on: [push]
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v1
+
+            - name: Set up Python 3.8
+              uses: actions/setup-python@v2
+              with:
+                  python-version: 3.8
+
+            - name: Login into docker
+              run: docker login -u {{ secrets.QUAY_USERNAME }} -p ${{ secrets.QUAY_PASSWORD }}
+
+            - name: Install requirements
+              run: python -m pip install --upgrade pip && pip install -r ./requirements.txt
+
+            - name: Build image
+              run: "rkd :build"
+
+            - nam: Publish image
+              run: "rkd :push"

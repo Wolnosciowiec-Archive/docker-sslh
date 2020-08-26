@@ -1,0 +1,42 @@
+version: org.riotkit.rkd/yaml/v1
+imports:
+    - rkt_ciutils.docker
+tasks:
+    :build:
+        description: Build a docker image
+        steps: |
+            pkg_version=$(%RKD% --no-ui :get-alpine-pkg-version)
+
+            set -x;
+            docker build . -f Dockerfile -t quay.io/riotkit/sslh:${pkg_version}
+            docker tag quay.io/riotkit/sslh:${pkg_version} quay.io/riotkit/sslh:latest
+
+    :push:
+        description: Push built image
+        steps: |
+            pkg_version=$(%RKD% --no-ui :get-alpine-pkg-version)
+
+            docker push quay.io/riotkit/sslh:${pkg_version}
+            docker push quay.io/riotkit/sslh:latest
+
+    :run:
+        description: Run docker image
+        steps: |
+            docker-compose rm -f
+            docker-compose up
+
+    :get-alpine-pkg-version:
+        description: Get version of package that would be installed inside docker
+        steps: |
+            #!python
+
+            import re
+            import requests
+            response = requests.get('https://pkgs.alpinelinux.org/package/edge/testing/x86_64/sslh')
+            matches = re.findall('aria\-label=\"Flag.*\"\>([0-9.a-z\-_]+)', response.content.decode('utf-8'))
+
+            if matches:
+                print(matches[0])
+
+            return len(matches) > 0
+
