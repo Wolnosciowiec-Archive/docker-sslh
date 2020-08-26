@@ -27,6 +27,15 @@ select-based model, and more.
 
 Check more at: https://github.com/yrutschle/sslh
 
+Available tags
+--------------
+
+https://quay.io/repository/riotkit/sslh?tab=tags
+
+```bash
+docker pull quay.io/riotkit/sslh:1.20-r3
+```
+
 Example usage
 -------------
 
