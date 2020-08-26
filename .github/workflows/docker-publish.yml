@@ -22,5 +22,5 @@ jobs:
             - name: Build image
               run: "rkd :build"
 
-            - nam: Publish image
+            - name: Publish image
               run: "rkd :push"
